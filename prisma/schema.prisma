@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// To handle pooling and serverless connection between prisma with neonDB we need to install few packages
+// npm i @neondatabase/serverless @prisma/adapter-neon ws
+// npm i -D @types/ws bufferutil
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// whenever we change or create model we need to generate prisma client
+// commmand : npx prisma generate
+// migrate: npx prisma migrate dev --name init
+// to check the migrations npx prisma studio
+// To seed(Put data into DB) we nrrd to run : npx tsx ./db/seed
+model Product {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String    
+  slug        String    @unique(map: "product_slug_idx")
+  category    String
+  images      String[]
+  description String
+  price       Decimal   @default(0) @db.Decimal(12,2)
+  stock       Int
+  rating      Decimal   @default(0) @db.Decimal(3,2)
+  numReviews  Int       @default(0)
+  isFeatured  Boolean   @default(false)
+  banner      String?
+  brand       String
+  createdAt   DateTime  @default(now()) @db.Timestamp(6)
+}
