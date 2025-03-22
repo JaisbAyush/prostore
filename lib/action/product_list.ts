@@ -8,7 +8,6 @@ export const getProductList = async ()=>{
         take : PRODUCT_FETCH_LIMIT,
         orderBy : {createdAt : 'desc'}
     })
-    console.log(productData);
     return convertToJsObject(productData);
 }
 

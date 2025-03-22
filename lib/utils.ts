@@ -9,7 +9,7 @@ export const convertToJsObject = <T>(value:T)=>{
   return JSON.parse(JSON.stringify(value));
 }
 
-export const formatNumberWithDecimal = (value : Number)=>{
+export const formatNumberWithDecimal = (value : number)=>{
   const stringValue = value.toFixed(2);
   const [intvalue, decimal] = stringValue.split('.');
   return decimal ? `${intvalue}.${decimal.padEnd(2,'0')}` : `${intvalue}.00`
