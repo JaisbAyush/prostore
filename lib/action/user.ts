@@ -5,6 +5,7 @@ import { signIn, signOut } from "@/app/auth";
 import { prisma } from "@/db/prisma";
 import { hashSync } from "bcrypt-ts-edge";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { formatErrorResponse } from "../utils";
 
 export const signInWithCredentials = async (
     prevState : unknown,
@@ -63,6 +64,6 @@ export const signUpUser = async (
         if(isRedirectError(error))
             throw error
 
-        return {success : false, message : 'something went wrong'}
+        return {success : false, message : formatErrorResponse(error)}
    }
 }

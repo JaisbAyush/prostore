@@ -47,7 +47,7 @@ const SignUpForm = ()=>{
                 <Label htmlFor="email">Email</Label>
                 <Input
                     id="email"
-                    type="email"
+                    type="text"
                     name="email"
                     autoComplete="email"
                     required

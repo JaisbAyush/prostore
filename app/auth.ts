@@ -3,6 +3,7 @@ import { compareSync } from 'bcrypt-ts-edge';
 import NextAuth,  { NextAuthConfig } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials';
 import {PrismaAdapter} from '@auth/prisma-adapter';
+import { use } from 'react';
 export const config = {
     adapter : PrismaAdapter(prisma),
     providers : [
@@ -42,10 +43,29 @@ export const config = {
         })
     ],
     callbacks : {
+        async jwt({token, user, trigger, session} : any){
+            if(user){
+                token.role = user.role;
+
+                if(user.name === 'NO_NAME'){
+                    token.name = user.email.split('@')[0]
+
+                    // update the database to reflect name if not present. eg:- if user logged in with gmail name field will not have any value
+
+                    prisma.user.update({
+                        where : {id : user.id},
+                        data : {name : token.name}
+                    })
+                }
+            }
+            return token;
+        },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         async session({session, token, user, trigger} : any){
             // set user ID because id doesn't go by default
             session.user.id = token.sub;
+            session.user.role = token.role;
+            session.user.name = token.name;
 
             // Check if something updates
             if(trigger === 'update'){
