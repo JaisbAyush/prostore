@@ -24,3 +24,13 @@ export const signInFormValidator = z.object({
     password : z.string().min(6, 'Password is required and should be of minimum 6 characters')
 })
 
+export const signUpFormValidator = z.object({
+    name : z.string().min(5,'Name is required and must be 5 characters'),
+    email : z.string().email('Email is Required'),
+    password : z.string().min(6, 'Password is required and should be of minimum 6 characters'),
+    confirmPassword : z.string().min(6, 'Password is required and should be of minimum 6 characters')
+}).refine((data)=>data.password === data.confirmPassword,{
+    message : 'Password didnot match',
+    path : ['confirmPasswird']
+})
+
