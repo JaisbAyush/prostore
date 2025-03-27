@@ -3,7 +3,6 @@ import { compareSync } from 'bcrypt-ts-edge';
 import NextAuth,  { NextAuthConfig } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials';
 import {PrismaAdapter} from '@auth/prisma-adapter';
-import { use } from 'react';
 export const config = {
     adapter : PrismaAdapter(prisma),
     providers : [
