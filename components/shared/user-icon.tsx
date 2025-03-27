@@ -6,7 +6,7 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuLabel,
 import { signOutUser } from "@/lib/action/user";
 const UserIconComponent = async ()=>{
     const session = await auth();
-    let firstInitial = session?.user?.name?.charAt(0);
+    const firstInitial = session?.user?.name?.charAt(0);
     if(!session){
         return (
             <Button asChild >
